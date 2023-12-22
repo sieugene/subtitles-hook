@@ -1,58 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subtitle hook</title>
-</head>
-<body>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: black;
+      }
+      video {
+        width: 100%;
+        height: 100vh;
+      }
+      video::cue {
+        visibility: hidden;
+      }
+      #subtitleDisplay {
+        position: fixed;
+        bottom: 10%;
+        background: #ffffffbd;
+        color: black;
+        font-size: 28px;
+        z-index: 99;
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video" controls preload="metadata">
+      <source src="video.mp4" type="video/mp4" />
+      <track
+        label="Japanese"
+        kind="subtitles"
+        srclang="jp"
+        src="video.vtt"
+        default
+      />
+    </video>
 
-<video id="video" controls preload="metadata">
-    <source src="video.mp4" type="video/mp4" />
-    <track
-      label="Japanese"
-      kind="subtitles"
-      srclang="jp"
-      src="video.vtt"
-      default />
-</video>
+    <div id="subtitleDisplay"></div>
 
-<div id="subtitleDisplay"></div>
+    <script>
+      var video = document.getElementById("video");
+      var subtitleDisplay = document.getElementById("subtitleDisplay");
 
-<script>
-    var video = document.getElementById('video');
-    var subtitleDisplay = document.getElementById('subtitleDisplay');
-
-    video.addEventListener('timeupdate', function() {
+      video.addEventListener("timeupdate", function () {
         updateSubtitlesForCurrentTime();
-    });
+      });
 
-    function updateSubtitlesForCurrentTime() {
-        var trackElement = document.querySelector('track');
+      function updateSubtitlesForCurrentTime() {
+        var trackElement = document.querySelector("track");
 
-        if (trackElement && trackElement.track && trackElement.track.mode !== 'disabled') {
-            var currentTime = video.currentTime;
-            var cues = trackElement.track.cues;
-            var currentCue = getCueForTime(cues, currentTime);
+        if (
+          trackElement &&
+          trackElement.track &&
+          trackElement.track.mode !== "disabled"
+        ) {
+          var currentTime = video.currentTime;
+          var cues = trackElement.track.cues;
+          var currentCue = getCueForTime(cues, currentTime);
 
-            if (currentCue) {
-                subtitleDisplay.textContent = currentCue.text;
-            } else {
-                subtitleDisplay.textContent = '';
-            }
+          if (currentCue) {
+            subtitleDisplay.textContent = currentCue.text;
+          } else {
+            subtitleDisplay.textContent = "";
+          }
         }
-    }
+      }
 
-    function getCueForTime(cues, currentTime) {
+      function getCueForTime(cues, currentTime) {
         for (var i = 0; i < cues.length; i++) {
-            var cue = cues[i];
-            if (cue.startTime <= currentTime && currentTime < cue.endTime) {
-                return cue;
-            }
+          var cue = cues[i];
+          if (cue.startTime <= currentTime && currentTime < cue.endTime) {
+            return cue;
+          }
         }
         return null;
-    }
-</script>
-
-</body>
+      }
+    </script>
+  </body>
 </html>
