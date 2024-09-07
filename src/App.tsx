@@ -10,13 +10,13 @@ function App() {
           width={"100%"}
           height={"100vh"}
           controls
-          url="video.mp4"
+          url="video.mkv"
           config={{
             file: {
               tracks: [
                 {
                   kind: "subtitles",
-                  src: "video.vtt",
+                  src: "./video.vtt",
                   srcLang: "ja",
                   label: "subtitles ja",
                   default: true,
