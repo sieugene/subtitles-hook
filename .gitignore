@@ -28,4 +28,5 @@ video.mp4
 video.vtt
 
 /public/*.vtt 
-/public/*.mkv
+/public/*.mkv 
+./src/data/files.json
