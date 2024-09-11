@@ -27,6 +27,6 @@ dist-ssr
 video.mp4
 video.vtt
 
-/public/*.vtt 
-/public/*.mkv 
-./src/data/files.json
+/public/*.vtt
+/public/*.mkv
+src/data/files.json
