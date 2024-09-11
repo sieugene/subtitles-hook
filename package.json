@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "script": "node ./scripts/generateFilesList.js"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -15,6 +16,7 @@
     "react-player": "^2.14.1"
   },
   "devDependencies": {
+    "@types/node": "^22.5.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",

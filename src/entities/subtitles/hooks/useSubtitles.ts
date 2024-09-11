@@ -25,7 +25,8 @@ export const useSubtitles = () => {
         if (currentCue?.text) {
           setSubtitles(currentCue.text);
         } else {
-          setSubtitles("");
+          // setSubtitles("");
+          return;
         }
       }
     }

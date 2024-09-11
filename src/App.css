@@ -4,7 +4,18 @@ body {
   background: black;
 }
 
-#root{
+#root {
   display: block;
   width: 100%;
+}
+
+.files_selector {
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 2rem;
+}
+
+.files_selector li{
+  cursor: pointer;
 }
