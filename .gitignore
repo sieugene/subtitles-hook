@@ -24,8 +24,8 @@ dist-ssr
 *.sw?
 
 
-video.mp4
-video.vtt
+*.mp4
+*.vtt
 
 /public/*.vtt
 /public/*.mkv

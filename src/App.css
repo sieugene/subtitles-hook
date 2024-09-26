@@ -4,6 +4,10 @@ body {
   background: black;
 }
 
+video::-webkit-media-controls-fullscreen-button {
+  display: none;
+}
+
 #root {
   display: block;
   width: 100%;
@@ -16,6 +20,21 @@ body {
   font-size: 2rem;
 }
 
-.files_selector li{
+.files_selector li {
   cursor: pointer;
+}
+
+.file-name {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  opacity: 0;
+  display: block;
+  z-index: 99;
+  font-size: 2rem;
+  color: white;
+}
+.file-name:hover {
+  opacity: 1;
 }

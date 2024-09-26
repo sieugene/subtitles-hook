@@ -11,7 +11,7 @@ video::cue {
   bottom: 10%;
   background: rgba(0, 0, 0, 0.5);
   color: white;
-  font-size: 28px;
+  font-size: 3rem;
   z-index: 99;
   text-align: center;
   font-weight: bold;

@@ -1,6 +1,8 @@
 import { readdirSync, writeFileSync } from "fs";
 import { extname, basename } from "path";
 
+const videoType = '.mp4'
+
 export const generateFilesList = () => {
   const directoryPath = "./public";
 
@@ -11,12 +13,12 @@ export const generateFilesList = () => {
     const ext = extname(file);
     const nameWithoutExt = basename(file, ext).replace(/\s/g, "_");
 
-    if (ext === ".mkv" || ext === ".vtt") {
+    if (ext === videoType || ext === ".vtt") {
       if (!fileMap[nameWithoutExt]) {
         fileMap[nameWithoutExt] = {};
       }
-      if (ext === ".mkv") {
-        fileMap[nameWithoutExt].mkv = file;
+      if (ext === videoType) {
+        fileMap[nameWithoutExt].video = file;
       } else if (ext === ".vtt") {
         fileMap[nameWithoutExt].vtt = file;
       }
@@ -25,10 +27,10 @@ export const generateFilesList = () => {
 
   const pairedFiles = Object.keys(fileMap)
     .filter((key) => {
-      return fileMap[key].mkv && fileMap[key].vtt;
+      return fileMap[key].video && fileMap[key].vtt;
     })
     .map((key) => ({
-      mkv: fileMap[key].mkv,
+      video: fileMap[key].video,
       vtt: fileMap[key].vtt,
     }));
 
