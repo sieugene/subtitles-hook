@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"npm run watcher\"",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "script": "node ./scripts/generateFilesList.js"
+    "watcher": "node ./scripts/watcher.js"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -16,12 +16,15 @@
     "react-player": "^2.14.1"
   },
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
     "@types/node": "^22.5.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "chokidar": "^4.0.1",
+    "concurrently": "^9.0.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

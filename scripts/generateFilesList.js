@@ -1,7 +1,7 @@
-import { readdirSync, writeFileSync } from "fs";
-import { extname, basename } from "path";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs";
+import { extname, basename, dirname } from "path";
 
-const videoType = '.mp4'
+const videoType = ".mp4";
 
 export const generateFilesList = () => {
   const directoryPath = "./public";
@@ -35,6 +35,10 @@ export const generateFilesList = () => {
     }));
 
   const outputFilePath = `./src/data/files.json`;
+  const dir = dirname(outputFilePath);
+  if (!existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+  }
   writeFileSync(outputFilePath, JSON.stringify(pairedFiles, null, 2), "utf-8");
 
   console.log(`Data has been written to ${outputFilePath}`);
