@@ -22,3 +22,11 @@ video::cue {
   border-radius: 12px;
   min-height: 52px;
 }
+.fz-control{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  gap: 5px;
+  z-index: 999;
+}

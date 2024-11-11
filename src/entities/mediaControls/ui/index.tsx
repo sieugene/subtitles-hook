@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
-export const MediaControls = () => {
-  const [fullScreen, setFullScreen] = useState(false);
+type Props = {
+  fullScreen: boolean;
+  setFullScreen: (fullScreen: boolean) => void;
+};
+export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
   const goFullScreen = (type: "fullscreen" | "notFullscreen") => {
     if (type === "fullscreen") document.documentElement.requestFullscreen();
     if (type === "notFullscreen") document.exitFullscreen();

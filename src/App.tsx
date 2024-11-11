@@ -7,6 +7,7 @@ import { MediaControls } from "./entities/mediaControls/ui";
 
 // 26
 function App() {
+  const [fullScreen, setFullScreen] = useState(false);
   const [current, setCurrent] = useState<{ video: string; vtt: string } | null>(
     null
   );
@@ -35,7 +36,7 @@ function App() {
       <div className="file-name" style={{ textAlign: "center" }}>
         {current.video}
       </div>
-      <Subtitles>
+      <Subtitles fullScreen={fullScreen}>
         <ReactPlayer
           width={"100%"}
           height={"100vh"}
@@ -55,7 +56,7 @@ function App() {
             },
           }}
         />
-        <MediaControls />
+        <MediaControls setFullScreen={setFullScreen} fullScreen={fullScreen} />
       </Subtitles>
     </>
   );
