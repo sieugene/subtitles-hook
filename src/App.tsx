@@ -1,34 +1,22 @@
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import "./App.css";
-import data from "./data/files.json";
-import { Subtitles } from "./entities/subtitles/ui";
 import { MediaControls } from "./entities/mediaControls/ui";
+import { Subtitles } from "./entities/subtitles/ui";
+import { VideoList } from "./features/videoList/ui";
 
-// 26
+interface MediaFile {
+  video: string;
+  vtt: string;
+}
+
 function App() {
   const [fullScreen, setFullScreen] = useState(false);
-  const [current, setCurrent] = useState<{ video: string; vtt: string } | null>(
-    null
-  );
+  const [current, setCurrent] = useState<MediaFile | null>(null);
+
 
   if (!current) {
-    return (
-      <div className="files_selector">
-        <ul>
-          {data.map((e) => (
-            <li
-              key={e.video}
-              onClick={() => {
-                setCurrent(e);
-              }}
-            >
-              {e.video}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+    return <VideoList current={current} setCurrent={setCurrent} />;
   }
 
   return (
@@ -49,7 +37,7 @@ function App() {
                   kind: "subtitles",
                   src: `./${current.vtt}`,
                   srcLang: "ja",
-                  label: "subtitles ja",
+                  label: "subtitles",
                   default: true,
                 },
               ],
