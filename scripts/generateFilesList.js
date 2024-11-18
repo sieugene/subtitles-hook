@@ -30,8 +30,8 @@ export const generateFilesList = () => {
       return fileMap[key].video && fileMap[key].vtt;
     })
     .map((key) => ({
-      video: fileMap[key].video,
-      vtt: fileMap[key].vtt,
+      video: `/files/${fileMap[key].video}`,
+      vtt: `/files/${fileMap[key].vtt}`,
     }));
 
   const outputFilePath = `./public/data/files.json`;
