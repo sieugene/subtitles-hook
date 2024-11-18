@@ -35,7 +35,7 @@ function App() {
               tracks: [
                 {
                   kind: "subtitles",
-                  src: `./${current.vtt}`,
+                  src: current.vtt,
                   srcLang: "ja",
                   label: "subtitles",
                   default: true,
