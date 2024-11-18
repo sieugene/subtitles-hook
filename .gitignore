@@ -29,4 +29,4 @@ dist-ssr
 
 /public/*.vtt
 /public/*.mkv
-src/data/files.json
+public/data/files.json

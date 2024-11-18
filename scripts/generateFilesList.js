@@ -4,7 +4,7 @@ import { extname, basename, dirname } from "path";
 const videoType = ".mp4";
 
 export const generateFilesList = () => {
-  const directoryPath = "./public";
+  const directoryPath = "./public/files";
 
   const files = readdirSync(directoryPath);
 
@@ -34,7 +34,7 @@ export const generateFilesList = () => {
       vtt: fileMap[key].vtt,
     }));
 
-  const outputFilePath = `./src/data/files.json`;
+  const outputFilePath = `./public/data/files.json`;
   const dir = dirname(outputFilePath);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });

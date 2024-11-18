@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
-import data from "../../../data/files.json";
+
 import { MediaFile } from "../../../shared/types";
 
 const STORAGE_KEY = "file-list";
 
 export const useVideoList = () => {
-  const [list, setList] = useState<MediaFile[]>(data);
+  const [list, setList] = useState<MediaFile[]>([]);
+  const fetchLocal = useLocalFiles();
 
   useEffect(() => {
-    sync();
+    (async () => {
+      try {
+        const data = await fetchLocal();
+        setList(data || []);
+      } finally {
+        sync();
+      }
+    })();
   }, []);
 
   const sync = () => {
@@ -37,4 +45,12 @@ export const useVideoList = () => {
   };
 
   return { list, add };
+};
+
+const useLocalFiles = () => {
+  return async () => {
+    const response = await fetch("data/files.json");
+    const data = (await response.json()) as MediaFile[];
+    return data;
+  };
 };

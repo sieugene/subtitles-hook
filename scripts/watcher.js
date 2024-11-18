@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.join(path.dirname(__filename), "..");
 
-const folderToWatch = path.resolve(__dirname, "public");
+const folderToWatch = path.resolve(__dirname, "public", "files");
 
 const watcher = chokidar.watch(folderToWatch, {
   ignored: /(^|[\\/\\])\../,
