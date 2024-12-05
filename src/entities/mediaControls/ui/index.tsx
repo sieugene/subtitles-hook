@@ -1,18 +1,21 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
+import { useMouseEvent } from "../../../shared/hooks/useMouseEvent";
+import "./index.css";
 
 type Props = {
   fullScreen: boolean;
-  setFullScreen: (fullScreen: boolean) => void;
+  setFullScreen: (value: boolean) => void;
 };
+
 export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
+  const [showButton, setShowButton] = useState(false);
+
   const goFullScreen = (type: "fullscreen" | "notFullscreen") => {
     if (type === "fullscreen") document.documentElement.requestFullscreen();
     if (type === "notFullscreen") document.exitFullscreen();
   };
 
   const keyFPress = ({ code }: KeyboardEvent) => {
-    console.log("document.fullscreenEnabled"), document.fullscreenEnabled;
-
     if (code === "KeyF" && document.fullscreenElement === null) {
       goFullScreen("fullscreen");
     }
@@ -27,40 +30,38 @@ export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
     };
     addEventListener("fullscreenchange", onFullscreenchange);
     addEventListener("keypress", keyFPress);
+
     return () => {
       removeEventListener("fullscreenchange", onFullscreenchange);
       removeEventListener("keypress", keyFPress);
     };
-  }, []);
+  }, [setFullScreen]);
+
+  useMouseEvent(
+    () => {
+      setShowButton(true);
+    },
+    () => {
+      setShowButton(false);
+    }
+  );
 
   const handleClickFullscreenButton = () => {
-    goFullScreen("fullscreen");
+    goFullScreen(!fullScreen ? "fullscreen" : "notFullscreen");
   };
-  if (!fullScreen)
-    return (
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          bottom: 28,
-          display: "flex",
-          justifyContent: "end",
-          overflow: "hidden",
-          height: "35px",
+  if (!showButton) return;
+  return (
+    <div className="mediaControls">
+      <h2>???</h2>
+      <button
+        className="mediaControls-button"
+        onClick={(event) => {
+          event.currentTarget.blur();
+          handleClickFullscreenButton();
         }}
       >
-        <button
-          onClick={handleClickFullscreenButton}
-          style={{
-            position: "relative",
-            right: "10%",
-            height: "100",
-            fontSize: "12px",
-            width: 100,
-          }}
-        >
-          FullScreen
-        </button>
-      </div>
-    );
+        FullScreen
+      </button>
+    </div>
+  );
 };

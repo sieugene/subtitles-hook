@@ -1,0 +1,23 @@
+.mediaControls {
+  position: absolute;
+  bottom: 28px;
+  display: flex;
+  justify-content: end;
+  overflow: hidden;
+  height: 35px;
+  right: 90px;
+  bottom: 35px;
+}
+
+.mediaControls-button {
+  position: relative;
+  font-size: 0.7rem;
+}
+
+
+
+@media (min-width: 768px) {
+  .mediaControls {
+    right: 250px;
+  }
+}

@@ -8,8 +8,7 @@ video::cue {
 }
 #subtitleDisplay {
   position: fixed;
-  bottom: 10%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgb(0 0 0 / 88%);
   color: white;
   font-size: 3rem;
   z-index: 99;
@@ -22,11 +21,18 @@ video::cue {
   border-radius: 12px;
   min-height: 52px;
 }
-.fz-control{
+.fz-control {
   position: absolute;
   right: 10px;
   top: 10px;
   display: flex;
   gap: 5px;
   z-index: 999;
+}
+.translated {
+  color: #ffffff7a;
+}
+p {
+  margin: 0;
+  padding: 0;
 }

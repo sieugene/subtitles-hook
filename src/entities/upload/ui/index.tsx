@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { MediaFile } from "../../../shared/types";
-import './index.css'
+import "./index.css";
 
 type Props = {
   videoFile: File | null;
@@ -31,11 +31,11 @@ export const Upload: FC<Props> = ({
     if (videoFile && subtitleFile) {
       const videoURL = URL.createObjectURL(videoFile);
       const subtitleURL = URL.createObjectURL(subtitleFile);
-      upload({ video: videoURL, vtt: subtitleURL });
+      upload({ video: videoURL, subtitles: subtitleURL, translate: undefined });
     }
   };
   return (
-    <div className='upload'>
+    <div className="upload">
       <div>
         <label>
           Select video:
@@ -48,7 +48,11 @@ export const Upload: FC<Props> = ({
           <input type="file" accept=".vtt" onChange={handleSubtitleChange} />
         </label>
       </div>
-      <button onClick={handleLoadMedia} disabled={!videoFile || !subtitleFile} className='upload-btn'>
+      <button
+        onClick={handleLoadMedia}
+        disabled={!videoFile || !subtitleFile}
+        className="upload-btn"
+      >
         Upload
       </button>
     </div>

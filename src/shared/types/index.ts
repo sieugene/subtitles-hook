@@ -1,4 +1,5 @@
 export interface MediaFile {
   video: string;
-  vtt: string;
+  subtitles: string;
+  translate: string | undefined
 }

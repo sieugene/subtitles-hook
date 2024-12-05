@@ -11,6 +11,7 @@
     "watcher": "node ./scripts/watcher.js"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-player": "^2.14.1"

@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   background: black;
+  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
 }
 
 video::-webkit-media-controls-fullscreen-button {
@@ -28,7 +29,7 @@ video::-webkit-media-controls-fullscreen-button {
   text-align: center;
   position: absolute;
   width: 100%;
-  height: 20%;
+  height: 70px;
   opacity: 0;
   display: block;
   z-index: 99;

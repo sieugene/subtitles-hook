@@ -1,32 +1,35 @@
 import { useCallback, useEffect, useState } from "react";
 
-export const useSubtitles = () => {
+export const useSubtitles = (trackSelector: string) => {
   const [subtitles, setSubtitles] = useState("");
-  const subcribe = useCallback(() => {
+
+  const subscribe = useCallback(() => {
     const video = document.getElementsByTagName("video")?.[0];
     if (!video) return;
+
+    const trackElement = document.querySelector(trackSelector) as HTMLTrackElement;
+
+    if (trackElement && trackElement.track) {
+      trackElement.track.mode = "showing";
+    }
 
     video.addEventListener("timeupdate", function () {
       updateSubtitlesForCurrentTime();
     });
+
     function updateSubtitlesForCurrentTime() {
       if (!video) return;
-      const trackElement = document.querySelector("track");
+      const track = trackElement?.track;
 
-      if (
-        trackElement &&
-        trackElement.track &&
-        trackElement.track.mode !== "disabled"
-      ) {
+      if (track && track.mode === "showing") {
         const currentTime = video.currentTime;
-        const cues = trackElement.track.cues;
+        const cues = track.cues;
         const currentCue = getCueForTime(cues, currentTime);
 
         if (currentCue?.text) {
           setSubtitles(currentCue.text);
         } else {
           // setSubtitles("");
-          return;
         }
       }
     }
@@ -41,13 +44,14 @@ export const useSubtitles = () => {
       }
       return null;
     }
-  }, []);
+  }, [trackSelector]);
 
   useEffect(() => {
     setTimeout(() => {
-      subcribe();
+      subscribe();
     }, 1000);
-  }, []);
+  }, [subscribe]);
 
-  return { subtitles, subcribe };
+  return { subtitles };
 };
+
