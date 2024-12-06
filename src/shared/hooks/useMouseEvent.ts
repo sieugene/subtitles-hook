@@ -6,18 +6,27 @@ export const useMouseEvent = (
   timeout = 2000
 ) => {
   useEffect(() => {
+    let mouseMoveTimeout: NodeJS.Timeout;
+
     const onMouseMove = () => {
       onMove();
       clearTimeout(mouseMoveTimeout);
       mouseMoveTimeout = setTimeout(() => onTimeout(), timeout);
     };
 
-    let mouseMoveTimeout: NodeJS.Timeout;
+    const onClick = () => {
+      onMove();
+      clearTimeout(mouseMoveTimeout);
+      mouseMoveTimeout = setTimeout(() => onTimeout(), timeout);
+    };
 
     addEventListener("mousemove", onMouseMove);
+    addEventListener("click", onClick);
+
     return () => {
       removeEventListener("mousemove", onMouseMove);
+      removeEventListener("click", onClick);
       clearTimeout(mouseMoveTimeout);
     };
-  }, []);
+  }, [timeout, onMove, onTimeout]);
 };

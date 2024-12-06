@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { useMouseEvent } from "../../../shared/hooks/useMouseEvent";
 import { useFontSizeControl } from "../hooks/useFontSizeControl";
 import { useSubtitles } from "../hooks/useSubtitles";
@@ -17,6 +17,7 @@ export const Subtitles: FC<Props> = ({ children }) => {
   const { subtitles: primarySubtitles } = useSubtitles();
   const { subtitles: translatedSubtitles } = useSubtitles(true);
   const { fontSize, onHandleSetFontSize } = useFontSizeControl();
+  const translateFZ = useMemo(() => fontSize * 0.65, [fontSize]);
 
   useMouseEvent(
     () => {
@@ -31,23 +32,30 @@ export const Subtitles: FC<Props> = ({ children }) => {
 
   return (
     <>
-      {showControls && (
-        <div className={styles.fzControl}>
-          <button onClick={() => onHandleSetFontSize("down")}>-</button>
-          <button onClick={() => onHandleSetFontSize("up")}>+</button>
-        </div>
-      )}
+      <div className={`${styles.fzControl} ${showControls ? "" : styles.hide}`}>
+        <button
+          onClick={() => {
+            onHandleSetFontSize("down");
+          }}
+        >
+          -
+        </button>
+        <button onClick={() => onHandleSetFontSize("up")}>+</button>
+      </div>
 
       {children}
       <div
         className={styles.subtitleDisplay}
         style={{ bottom: `${position}%` }}
       >
-        <p style={{ fontSize: `${fontSize}px` }}> {primarySubtitles}</p>
+        <p style={{ fontSize: `${fontSize}px`, paddingBottom: 14 }}>
+          {" "}
+          {primarySubtitles}
+        </p>
         {translatedSubtitles && (
           <p
             className={styles.translated}
-            style={{ fontSize: `${fontSize - 2}px` }}
+            style={{ fontSize: `${translateFZ}px` }}
           >
             {translatedSubtitles}
           </p>
