@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { useMouseEvent } from "../../../shared/hooks/useMouseEvent";
 import { useFontSizeControl } from "../hooks/useFontSizeControl";
 import { useSubtitles } from "../hooks/useSubtitles";
-import "./index.css";
+import styles from "./index.module.scss";
 
 type Props = {
   children: React.ReactNode;
@@ -32,17 +32,23 @@ export const Subtitles: FC<Props> = ({ children }) => {
   return (
     <>
       {showControls && (
-        <div className="fz-control">
+        <div className={styles.fzControl}>
           <button onClick={() => onHandleSetFontSize("down")}>-</button>
           <button onClick={() => onHandleSetFontSize("up")}>+</button>
         </div>
       )}
 
       {children}
-      <div id="subtitleDisplay" style={{ bottom: `${position}%` }}>
+      <div
+        className={styles.subtitleDisplay}
+        style={{ bottom: `${position}%` }}
+      >
         <p style={{ fontSize: `${fontSize}px` }}> {primarySubtitles}</p>
         {translatedSubtitles && (
-          <p className="translated" style={{ fontSize: `${fontSize - 2}px` }}>
+          <p
+            className={styles.translated}
+            style={{ fontSize: `${fontSize - 2}px` }}
+          >
             {translatedSubtitles}
           </p>
         )}

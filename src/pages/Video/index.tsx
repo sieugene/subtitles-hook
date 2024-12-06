@@ -66,8 +66,8 @@ export const VideoPage = () => {
   }
 
   return (
-    <div>
-      <div className="file-name" style={{ textAlign: "center" }}>
+    <>
+      <div className={styles.fileName} style={{ textAlign: "center" }}>
         {media.video}
       </div>
       <Subtitles fullScreen={fullScreen}>
@@ -85,6 +85,6 @@ export const VideoPage = () => {
 
         <MediaControls setFullScreen={setFullScreen} fullScreen={fullScreen} />
       </Subtitles>
-    </div>
+    </>
   );
 };

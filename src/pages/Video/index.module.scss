@@ -11,3 +11,18 @@
   color: #cac8c8;
   font-size: 2rem;
 }
+
+.fileName {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  opacity: 0;
+  display: block;
+  z-index: 99;
+  font-size: 2rem;
+  color: white;
+}
+.fileName:hover {
+  opacity: 1;
+}

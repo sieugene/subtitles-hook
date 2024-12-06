@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useMouseEvent } from "../../../shared/hooks/useMouseEvent";
-import "./index.css";
+import styles from "./index.module.scss"
+import { Button } from '../../../shared/ui/Button';
 
 type Props = {
   fullScreen: boolean;
@@ -51,17 +52,16 @@ export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
   };
   if (!showButton) return;
   return (
-    <div className="mediaControls">
-      <h2>???</h2>
-      <button
-        className="mediaControls-button"
+    <div className={styles.mediaControls}>
+      <Button
+        className={styles.mediaControlsButton}
         onClick={(event) => {
           event.currentTarget.blur();
           handleClickFullscreenButton();
         }}
       >
         FullScreen
-      </button>
+      </Button>
     </div>
   );
 };
