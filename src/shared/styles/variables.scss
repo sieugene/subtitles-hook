@@ -1,0 +1,17 @@
+@use "sass:map";
+
+$container-max-width: 1200px;
+$container-padding: 16px;
+$breakpoints: (
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+);
+
+@mixin respond-to($breakpoint) {
+  $breakpoint-value: map.get($breakpoints, $breakpoint);
+  @media (min-width: $breakpoint-value) {
+    @content;
+  }
+}

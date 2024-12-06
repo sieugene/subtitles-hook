@@ -50,6 +50,7 @@ export const generateFilesList = () => {
         translate: hasTranslate
           ? `/files/${fileMap[key].translate}`
           : undefined,
+        id: key,
       };
     });
 

@@ -1,0 +1,26 @@
+@use "../../../shared/styles/variables.scss" as vars;
+
+.container {
+  width: 100%;
+  height: auto;
+  max-width: vars.$container-max-width;
+  padding-left: vars.$container-padding;
+  padding-right: vars.$container-padding;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include vars.respond-to("sm") {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @include vars.respond-to("md") {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @include vars.respond-to("lg") {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}

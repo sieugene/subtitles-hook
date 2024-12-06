@@ -14,10 +14,8 @@ const DEFAULT_POSITION = 3;
 export const Subtitles: FC<Props> = ({ children }) => {
   const [showControls, setShowControls] = useState(true);
   const [position, setPosition] = useState(DEFAULT_POSITION);
-  const { subtitles: primarySubtitles } = useSubtitles("track[src$='.vtt']");
-  const { subtitles: translatedSubtitles } = useSubtitles(
-    "track[src$='.vtt-tr']"
-  );
+  const { subtitles: primarySubtitles } = useSubtitles();
+  const { subtitles: translatedSubtitles } = useSubtitles(true);
   const { fontSize, onHandleSetFontSize } = useFontSizeControl();
 
   useMouseEvent(

@@ -1,0 +1,9 @@
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  a {
+    color: white;
+    font-size: 2rem;
+  }
+}

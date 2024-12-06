@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 
-export const useSubtitles = (trackSelector: string) => {
+export const useSubtitles = (isTranslateTrack = false) => {
   const [subtitles, setSubtitles] = useState("");
 
   const subscribe = useCallback(() => {
     const video = document.getElementsByTagName("video")?.[0];
     if (!video) return;
-
-    const trackElement = document.querySelector(trackSelector) as HTMLTrackElement;
+    const trackElements = document.querySelectorAll("track");
+    const trackElement = trackElements?.[
+      isTranslateTrack ? 1 : 0
+    ] as HTMLTrackElement;
 
     if (trackElement && trackElement.track) {
       trackElement.track.mode = "showing";
@@ -44,7 +46,7 @@ export const useSubtitles = (trackSelector: string) => {
       }
       return null;
     }
-  }, [trackSelector]);
+  }, [isTranslateTrack]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,4 +56,3 @@ export const useSubtitles = (trackSelector: string) => {
 
   return { subtitles };
 };
-

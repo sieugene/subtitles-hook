@@ -1,40 +1,38 @@
-import { FC, useState } from "react";
-import { Upload } from "../../../entities/upload/ui";
-import { MediaFile } from "../../../shared/types";
+import { FC } from "react";
 import { useVideoList } from "../hooks/useVideoList";
+import classes from "./index.module.scss";
+import { NavLink } from "react-router";
+import { ROUTES } from "../../../shared/routes";
+import { Button } from "../../../shared/ui/Button";
 
-type Props = {
-  current: MediaFile | null;
-  setCurrent: (media: MediaFile) => void;
-};
-export const VideoList: FC<Props> = ({ setCurrent }) => {
-  const { add, list } = useVideoList();
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [subtitleFile, setSubtitleFile] = useState<File | null>(null);
+export const VideoList: FC = () => {
+  const { list, loading } = useVideoList();
 
-  return (
-    <>
-      <div className="files_selector">
-        <ul>
-          {list.map((e) => (
-            <li
-              key={e.video}
-              onClick={() => {
-                setCurrent(e);
-              }}
-            >
-              {e.video}
-            </li>
-          ))}
-        </ul>
-        <Upload
-          videoFile={videoFile}
-          setSubtitleFile={setSubtitleFile}
-          setVideoFile={setVideoFile}
-          subtitleFile={subtitleFile}
-          upload={add}
-        />
+  if (loading) {
+    return (
+      <div>
+        <h2 className={classes.label}>Loading...</h2>
       </div>
-    </>
+    );
+  }
+  if (!list.length) {
+    return (
+      <div className={classes.empty}>
+        <h2 className={classes.label}>Empty...</h2>
+        <NavLink to={ROUTES.upload}>
+          <Button>Upload</Button>
+        </NavLink>
+      </div>
+    );
+  }
+  return (
+    <div className={classes.list}>
+      <h2 className={classes.label}>Uploaded Files:</h2>
+      {list.map((e) => (
+        <NavLink to={ROUTES.video(e.id)} key={e.video} className={classes.item}>
+          {e.video}
+        </NavLink>
+      ))}
+    </div>
   );
 };

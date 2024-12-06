@@ -1,12 +1,14 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { MediaFile } from "../../../shared/types";
-import "./index.css";
+import styles from "./index.module.scss";
 
 type Props = {
   videoFile: File | null;
   subtitleFile: File | null;
-  setVideoFile: (file: File) => void;
-  setSubtitleFile: (file: File) => void;
+  subtitleTranslateFile: File | null;
+  setVideoFile: (file: File | null) => void;
+  setSubtitleFile: (file: File | null) => void;
+  setSubtitleTranslateFile: (file: File | null) => void;
   upload: (media: MediaFile) => void;
 };
 
@@ -14,47 +16,86 @@ export const Upload: FC<Props> = ({
   setSubtitleFile,
   setVideoFile,
   subtitleFile,
+  setSubtitleTranslateFile,
+  subtitleTranslateFile,
   videoFile,
   upload,
 }) => {
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [refresh, setRefresh] = useState(false);
+  const onHandleUpload = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    cb: (file: File) => void
+  ) => {
     const file = e.target.files?.[0] || null;
-    file && setVideoFile(file);
-  };
-
-  const handleSubtitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    file && setSubtitleFile(file);
+    file && cb(file);
   };
 
   const handleLoadMedia = () => {
     if (videoFile && subtitleFile) {
-      const videoURL = URL.createObjectURL(videoFile);
-      const subtitleURL = URL.createObjectURL(subtitleFile);
-      upload({ video: videoURL, subtitles: subtitleURL, translate: undefined });
+      upload({
+        video: URL.createObjectURL(videoFile),
+        subtitles: URL.createObjectURL(subtitleFile),
+        translate: subtitleTranslateFile
+          ? URL.createObjectURL(subtitleTranslateFile)
+          : "",
+        id: Date.now().toString(),
+      });
+      clearFiles();
     }
   };
+  const clearFiles = () => {
+    setRefresh(true);
+    setVideoFile(null);
+    setSubtitleFile(null);
+    setSubtitleTranslateFile(null);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 500);
+  };
+
   return (
-    <div className="upload">
-      <div>
-        <label>
-          Select video:
-          <input type="file" accept="video/*" onChange={handleVideoChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Select subtitles:
-          <input type="file" accept=".vtt" onChange={handleSubtitleChange} />
-        </label>
-      </div>
-      <button
-        onClick={handleLoadMedia}
-        disabled={!videoFile || !subtitleFile}
-        className="upload-btn"
-      >
-        Upload
-      </button>
+    <div className={styles.upload}>
+      {!refresh ? (
+        <>
+          <div>
+            <label>
+              Select video:
+              <input
+                type="file"
+                accept="video/*"
+                onChange={(e) => onHandleUpload(e, setVideoFile)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Select subtitles:
+              <input
+                type="file"
+                accept=".vtt"
+                onChange={(e) => onHandleUpload(e, setSubtitleFile)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Select translate:
+              <input
+                type="file"
+                accept=".vtt-tr"
+                onChange={(e) => onHandleUpload(e, setSubtitleTranslateFile)}
+              />
+            </label>
+          </div>
+          <button
+            onClick={handleLoadMedia}
+            disabled={!videoFile || !subtitleFile}
+            className={styles.uploadBtn}
+          >
+            Upload
+          </button>
+        </>
+      ) : <h2 className={styles.loading}>Loading...</h2>}
     </div>
   );
 };
