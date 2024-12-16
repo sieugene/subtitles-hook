@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
-import { useMouseEvent } from "../../../shared/hooks/useMouseEvent";
-import styles from "./index.module.scss"
-import { Button } from '../../../shared/ui/Button';
+import { FC, useEffect } from "react";
+import { Button } from "../../../shared/ui/Button";
+import styles from "./index.module.scss";
+import { useMouseEvent } from "../../../shared/context/MouseEventContext/useMouseEvent";
 
 type Props = {
   fullScreen: boolean;
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
-  const [showButton, setShowButton] = useState(false);
+  const { isActive: showButton } = useMouseEvent();
 
   const goFullScreen = (type: "fullscreen" | "notFullscreen") => {
     if (type === "fullscreen") document.documentElement.requestFullscreen();
@@ -37,15 +37,6 @@ export const MediaControls: FC<Props> = ({ fullScreen, setFullScreen }) => {
       removeEventListener("keypress", keyFPress);
     };
   }, [setFullScreen]);
-
-  useMouseEvent(
-    () => {
-      setShowButton(true);
-    },
-    () => {
-      setShowButton(false);
-    }
-  );
 
   const handleClickFullscreenButton = () => {
     goFullScreen(!fullScreen ? "fullscreen" : "notFullscreen");
