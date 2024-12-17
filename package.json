@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "watcher": "node ./scripts/watcher.js",
-    "make-dictionary": "node ./scripts/make_dictionary.js -file='JMdict_english'"
+    "make-dictionary": "node ./scripts/make_dictionary.js -file='JMdict_russian'"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
+import { DictionaryLookup } from "../model/DictionaryLookup";
 
-interface DictionaryEntry {
-  word: string;
-  reading: string;
-  type: string;
-  meanings: string[];
-}
-
-export const useDictionaryLookup = (
+export const useDictionaryLookup = <T extends unknown[]>(
   sentence: string,
-  dictionary: any
-): DictionaryEntry[] => {
+  dictionary: DictionaryLookup<T>
+) => {
   const [tokenizedWords, setTokenizedWords] = useState<string[]>([]);
 
   useEffect(() => {
@@ -41,16 +35,5 @@ export const useDictionaryLookup = (
     tokenizeSentence();
   }, [sentence]);
 
-  const results = tokenizedWords.map((word) => {
-    const foundEntries = dictionary.filter((entry: any) => entry[0] === word);
-
-    return foundEntries.map((entry: any) => ({
-      word: entry[0],
-      reading: entry[1],
-      type: entry[2],
-      meanings: entry[5],
-    }));
-  });
-
-  return results.flat();
+  return dictionary.find(tokenizedWords);
 };
