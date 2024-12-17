@@ -3,4 +3,5 @@ export const ROUTES = {
   videos: "/videos",
   video: (id: string) => `/videos/${id}`,
   upload: "/upload",
+  dictionary: '/dictionary'
 };

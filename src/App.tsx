@@ -3,7 +3,8 @@ import "./App.css";
 import { VideoStoreProvider } from "./features/videoList/store/video.store";
 import { HomePage, UploadPage, VideoPage, VideosPage } from "./pages";
 import { ROUTES } from "./shared/routes";
-import { MouseEventProvider } from './shared/context/MouseEventContext';
+import { MouseEventProvider } from "./shared/context/MouseEventContext";
+import DictionaryLookupExample from "./features/dictionary/ui";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
             <Route path=":id" element={<VideoPage />} />
           </Route>
           <Route path={ROUTES.upload} element={<UploadPage />} />
+          <Route
+            path={ROUTES.dictionary}
+            element={<DictionaryLookupExample />}
+          />
         </Routes>
       </VideoStoreProvider>
     </MouseEventProvider>
