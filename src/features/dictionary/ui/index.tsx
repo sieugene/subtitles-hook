@@ -1,16 +1,14 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { useDictionaryLookup } from "../hooks/useDictionaryLookup";
-import { RuDictionaryLookup } from '../model/Dictionary.ru';
 import styles from "./index.module.scss";
-// import { EnDictionaryLookup } from '../model/Dictionary.en';
 
 const DictionaryLookupExample: React.FC = () => {
   const params = useLocation();
   const sentence = decodeURIComponent(
     params.search.split("?sentence=")?.[1] || ""
   );
-  const results = useDictionaryLookup(sentence, RuDictionaryLookup);
+  const { data: results, loading } = useDictionaryLookup(sentence);
 
   return (
     <div className={styles.dictionaryContainer}>
@@ -20,6 +18,7 @@ const DictionaryLookupExample: React.FC = () => {
       </div>
 
       <h2 className={styles.title}>Search results</h2>
+      {loading && <h2>loading...</h2>}
       {results?.length > 0 ? (
         <ul className={styles.resultsList}>
           {results?.map((entry, index) => (

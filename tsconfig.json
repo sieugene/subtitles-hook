@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "src/features/dictionary/ui/index.tsx", "server/src/services/Dictionary/model"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
