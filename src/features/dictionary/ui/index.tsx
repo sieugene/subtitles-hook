@@ -1,27 +1,100 @@
-import React from "react";
-import { useLocation } from "react-router";
+import React, { FC, useMemo, useRef, useState } from "react";
 import { useDictionaryLookup } from "../hooks/useDictionaryLookup";
 import styles from "./index.module.scss";
+import { DictionaryEntry } from "../types";
+import useClickOutside from "../../../shared/hooks/useClickOutside";
 
-const DictionaryLookupExample: React.FC = () => {
-  const params = useLocation();
-  const sentence = decodeURIComponent(
-    params.search.split("?sentence=")?.[1] || ""
+type Props = {
+  sentence: string;
+  baseBottom: number;
+};
+export const DictionaryLookup: React.FC<Props> = ({ sentence, baseBottom }) => {
+  const [open, setOpen] = useState(false);
+  const { dictionaryResult, loading, tokens } = useDictionaryLookup(sentence);
+  const [selectedWordId, setSelectedWordId] = useState<number | null>(null);
+
+  const wordById = useMemo(
+    () => tokens.find((t) => t.word_id === selectedWordId),
+    [selectedWordId, tokens]
   );
-  const { data: results, loading } = useDictionaryLookup(sentence);
+  const resultsByWord = useMemo(() => {
+    if (wordById) {
+      return dictionaryResult.filter(
+        (w) =>
+          w.word === wordById.basic_form || w.word === wordById.basic_form[0]
+      );
+    }
+    return [];
+  }, [dictionaryResult, wordById]);
 
+  const onHide = () => {
+    setOpen(false);
+  };
   return (
-    <div className={styles.dictionaryContainer}>
+    <>
       <div className={styles.sentenceBlock}>
-        <h3>Suggestion for a search:</h3>
-        <p className={styles.sentence}>{sentence}</p>
-      </div>
+        <div className={styles.sentence}>
+          {!tokens.length
+            ? sentence
+            : tokens.map((t) => {
+                return (
+                  <span
+                    key={t.word_id}
+                    className={styles.sentenceEl}
+                    onClick={() => {
+                      setSelectedWordId(t.word_id);
+                      setOpen(true);
+                    }}
+                  >
+                    {t.surface_form}
+                  </span>
+                );
+              })}
+        </div>
 
-      <h2 className={styles.title}>Search results</h2>
-      {loading && <h2>loading...</h2>}
-      {results?.length > 0 ? (
+        <DictionaryResults
+          data={resultsByWord}
+          loading={loading}
+          searchFor={wordById?.basic_form || "-"}
+          baseBottom={baseBottom}
+          open={open}
+          onHide={onHide}
+        />
+      </div>
+    </>
+  );
+};
+
+type DictionaryResultsProps = {
+  data: DictionaryEntry[];
+  loading: boolean;
+  searchFor: string;
+  baseBottom: number;
+  open: boolean;
+  onHide: () => void;
+};
+const DictionaryResults: FC<DictionaryResultsProps> = ({
+  data,
+  loading,
+  searchFor,
+  baseBottom,
+  open,
+  onHide,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, onHide);
+
+  if (!open) return null;
+  return (
+    <div
+      className={styles.dictionaryContainer}
+      style={{ bottom: baseBottom }}
+      ref={ref}
+    >
+      {loading && "loading..."}
+      {data?.length > 0 ? (
         <ul className={styles.resultsList}>
-          {results?.map((entry, index) => (
+          {data?.map((entry, index) => (
             <li key={index}>
               <strong>
                 {entry.word} ({entry.reading})
@@ -36,10 +109,10 @@ const DictionaryLookupExample: React.FC = () => {
           ))}
         </ul>
       ) : (
-        <p className={styles.noResults}>No matches were found.</p>
+        <p className={styles.noResults}>
+          No matches were found for {searchFor}
+        </p>
       )}
     </div>
   );
 };
-
-export default DictionaryLookupExample;

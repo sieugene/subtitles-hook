@@ -9,7 +9,7 @@ export class Dictionary {
 
   find(tokenizedWords: string[]) {
     return this.dictionaries.reduce((findResult, dict) => {
-      let prev = [...findResult];
+      const prev = [...findResult];
       return [...prev, ...dict.find(tokenizedWords)];
     }, [] as DictionaryEntry[]);
   }

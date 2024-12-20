@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { DictionaryEntry } from "../types";
+import { ENV } from "../../../shared/env";
+import { LookupResponse } from "../types";
 
 export const useDictionaryLookup = (sentence: string) => {
-  const [data, setData] = useState<DictionaryEntry[]>([]);
+  const [data, setData] = useState<LookupResponse["data"]>({
+    dictionaryResult: [],
+    words: [],
+    tokens: [],
+  });
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const tokenizeSentence = async () => {
@@ -13,13 +18,13 @@ export const useDictionaryLookup = (sentence: string) => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3000/v1/tokenizer/lookup?sentence=${encodeURIComponent(
+          `${ENV.SERVICE_API}/v1/tokenizer/lookup?sentence=${encodeURIComponent(
             sentence
           )}`
         );
         if (response.ok) {
-          const responseData = (await response.json()) as DictionaryEntry[];
-          setData(responseData);
+          const responseData = (await response.json()) as LookupResponse;
+          setData(responseData.data);
         } else {
           console.error("Tokenization error:", response.statusText);
         }
@@ -33,5 +38,8 @@ export const useDictionaryLookup = (sentence: string) => {
     tokenizeSentence();
   }, [sentence]);
 
-  return { data, loading };
+  return {
+    loading,
+    ...data,
+  };
 };

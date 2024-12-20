@@ -17,7 +17,11 @@ export const LookupController = (
     return;
   }
   const tokens = kuromojiService.tokenizer.tokenize(sentence);
-  const words = tokens.map((token) => token.surface_form);
-  const result = dictionaryService.find(words);
-  res.json(result);
+  const surfaceForms = tokens.map((token) => token.surface_form);
+  const words = tokens.map((token) => token.basic_form);
+  const searchByFirstSymbol = words.map((w) => w[0]);
+  const variants = [...surfaceForms, ...words, ...searchByFirstSymbol];
+
+  const dictionaryResult = dictionaryService.find(variants);
+  res.json({ data: { dictionaryResult, words, tokens } });
 };

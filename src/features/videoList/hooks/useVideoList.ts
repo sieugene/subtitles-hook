@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { MediaFile } from "../../../shared/types";
 import { useVideoStore } from "../store/video.store";
+import { ENV } from "../../../shared/env";
 
 export const useVideoList = () => {
   const { list, loading, setLoading, setList } = useVideoStore();
@@ -11,7 +12,7 @@ export const useVideoList = () => {
     (async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${location.origin}/data/files.json`);
+        const response = await fetch(`${ENV.STORAGE_API}/data/files.json`);
         const data = (await response.json()) as MediaFile[];
         setList(data || []);
       } catch (error) {

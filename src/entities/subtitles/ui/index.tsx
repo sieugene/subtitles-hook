@@ -5,6 +5,7 @@ import { useFontSizeControl } from "../hooks/useFontSizeControl";
 import { useSubtitles } from "../hooks/useSubtitles";
 import styles from "./index.module.scss";
 import { usePlaceControl } from "../hooks/usePlaceControl";
+import { DictionaryLookup } from "../../../features/dictionary/ui";
 
 type Props = {
   children: React.ReactNode;
@@ -67,9 +68,19 @@ export const Subtitles: FC<Props> = ({ children }) => {
         }}
         ref={isFixedPlacement ? null : elementRef}
       >
-        <p style={{ fontSize: `${fontSize}px`, paddingBottom: 14 }}>
-          {primarySubtitles}
+        <p
+          style={{
+            fontSize: `${fontSize}px`,
+            paddingBottom: 14,
+            position: "relative",
+          }}
+        >
+          <DictionaryLookup
+            sentence={primarySubtitles}
+            baseBottom={fontSize + 45}
+          />
         </p>
+
         {translatedSubtitles && (
           <p
             className={styles.translated}
