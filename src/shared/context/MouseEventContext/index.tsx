@@ -28,12 +28,14 @@ export const MouseEventProvider: React.FC<MouseEventProviderProps> = ({
 
     document.body.addEventListener("mousemove", handleActivity);
     document.body.addEventListener("click", handleActivity);
+    document.body.addEventListener("wheel", handleActivity);
 
     resetTimeout();
 
     return () => {
       document.body.removeEventListener("mousemove", handleActivity);
       document.body.removeEventListener("click", handleActivity);
+      document.body.removeEventListener("wheel", handleActivity);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [timeout]);

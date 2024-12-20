@@ -36,12 +36,15 @@ export const DictionaryLookup: React.FC<Props> = ({ sentence, baseBottom }) => {
         <div className={styles.sentence}>
           {!tokens.length
             ? sentence
-            : tokens.map((t) => {
+            : tokens.map((t,index) => {
                 return (
                   <span
-                    key={t.word_id}
+                    key={index}
                     className={styles.sentenceEl}
                     onClick={() => {
+                      // TODO
+                      const videoElement = document.querySelector('video');
+                      videoElement?.pause()
                       setSelectedWordId(t.word_id);
                       setOpen(true);
                     }}
