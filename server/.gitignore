@@ -1,0 +1,5 @@
+data/dict/JMdict/*.json
+data/dict/JMdict/*.zip
+
+data/dict/kuromoji/*.gz
+
